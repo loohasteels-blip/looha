@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: 'How long does delivery take in Nellore?',
-    a: 'Standard delivery within Nellore city is 1�2 business days. For areas outside Nellore in Andhra Pradesh, it is 2�4 business days depending on location.',
+    a: 'Standard delivery within Nellore city is 1–2 business days. For areas outside Nellore in Andhra Pradesh, it is 2–4 business days depending on location.',
   },
   {
     q: 'Do you provide GST invoices?',
@@ -73,7 +73,7 @@ export default function Support() {
             <span>Support</span>
           </nav>
           <h1>How can we help you?</h1>
-          <p>Questions, orders, feedback � we're here for all of it. Mon�Sat, 9 AM � 7 PM.</p>
+          <p>Questions, orders, feedback — we&apos;re here for all of it. Mon–Sat, 9 AM – 7 PM.</p>
         </div>
       </div>
 
@@ -81,11 +81,11 @@ export default function Support() {
       <div className="container">
         <div className="support-contact-grid">
           <a href="tel:+918885999718" className="support-contact-card">
-            <div className="support-contact-icon">??</div>
+            <div className="support-contact-icon">📞</div>
             <div>
               <div className="support-contact-label">CALL US</div>
               <div className="support-contact-value">+91 88859 99718</div>
-              <div className="support-contact-sub">Mon�Sat, 9 AM � 7 PM</div>
+              <div className="support-contact-sub">Mon–Sat, 9 AM – 7 PM</div>
             </div>
           </a>
           <a
@@ -94,7 +94,7 @@ export default function Support() {
             rel="noopener noreferrer"
             className="support-contact-card support-contact-card--green"
           >
-            <div className="support-contact-icon">??</div>
+            <div className="support-contact-icon">💬</div>
             <div>
               <div className="support-contact-label">WHATSAPP US</div>
               <div className="support-contact-value">+91 88859 99718</div>
@@ -102,7 +102,7 @@ export default function Support() {
             </div>
           </a>
           <a href="mailto:support@looha.in" className="support-contact-card">
-            <div className="support-contact-icon">??</div>
+            <div className="support-contact-icon">📧</div>
             <div>
               <div className="support-contact-label">EMAIL US</div>
               <div className="support-contact-value">support@looha.in</div>
@@ -110,11 +110,11 @@ export default function Support() {
             </div>
           </a>
           <div className="support-contact-card support-contact-card--navy">
-            <div className="support-contact-icon">??</div>
+            <div className="support-contact-icon">📍</div>
             <div>
               <div className="support-contact-label">VISIT US</div>
               <div className="support-contact-value" style={{ fontSize: '0.95rem' }}>Near Mulapet Gate Centre</div>
-              <div className="support-contact-sub">Nellore, AP � 524003</div>
+              <div className="support-contact-sub">Nellore, AP – 524003</div>
             </div>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function Support() {
               >
                 <div className="faq-question">
                   <span>{faq.q}</span>
-                  <span className="faq-chevron">{openFaq === i ? '?' : '?'}</span>
+                  <span className="faq-chevron">{openFaq === i ? '▲' : '▼'}</span>
                 </div>
                 {openFaq === i && (
                   <div className="faq-answer">{faq.a}</div>
@@ -152,7 +152,7 @@ export default function Support() {
             <p className="support-form-sub">Tell us your requirements and we'll get back to you on WhatsApp.</p>
             {submitted ? (
               <div className="support-form-success">
-                <div style={{ fontSize: '2.5rem' }}>?</div>
+                <div style={{ fontSize: '2.5rem' }}>✅</div>
                 <h3>Message Sent!</h3>
                 <p>We've opened WhatsApp with your message. Our team will respond shortly.</p>
                 <button className="btn btn-primary mt-2" onClick={() => { setSubmitted(false); setForm({ name: '', phone: '', message: '' }); }}>
@@ -189,7 +189,7 @@ export default function Support() {
                   <textarea
                     className="input"
                     rows={5}
-                    placeholder="Describe your query � product, size, quantity, delivery location..."
+                    placeholder="Describe your query — product, size, quantity, delivery location..."
                     value={form.message}
                     onChange={e => setForm({ ...form, message: e.target.value })}
                     required
@@ -197,7 +197,7 @@ export default function Support() {
                   />
                 </div>
                 <button type="submit" className="btn btn-accent btn-block" style={{ marginTop: 8 }}>
-                  ?? Send via WhatsApp ?
+                  📲 Send via WhatsApp →
                 </button>
               </form>
             )}
