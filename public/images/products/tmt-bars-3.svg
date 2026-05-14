@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">
+  <rect width="600" height="400" fill="#0d2240"/>
+  <g transform="translate(100,50)">
+    <rect x="0" y="60" width="400" height="12" rx="6" fill="#E98800" transform="rotate(-15 200 66)"/>
+    <rect x="0" y="100" width="400" height="12" rx="6" fill="#E98800" opacity="0.85" transform="rotate(-15 200 106)"/>
+    <rect x="0" y="140" width="400" height="12" rx="6" fill="#E98800" opacity="0.7" transform="rotate(-15 200 146)"/>
+    <rect x="0" y="180" width="400" height="12" rx="6" fill="#E98800" opacity="0.55" transform="rotate(-15 200 186)"/>
+    <rect x="0" y="220" width="400" height="12" rx="6" fill="#E98800" opacity="0.4" transform="rotate(-15 200 226)"/>
+  </g>
+  <text x="300" y="370" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="20" fill="#fff" opacity="0.7">Bundle View</text>
+</svg>

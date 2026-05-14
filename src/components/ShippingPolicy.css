@@ -1,0 +1,331 @@
+/* ═══════════════════════════════════════════════════════
+   POLICY PAGES — LinkedIn-inspired clean layout
+   Shared by: ShippingPolicy, TermsConditions,
+              ReturnPolicy, PrivacyPolicy
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Page wrapper ───────────────────────────────────── */
+.policy-page {
+  background: #ffffff;
+  min-height: 100vh;
+  font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #191919;
+}
+
+/* ── Clean page header (replaces dark hero) ─────────── */
+.policy-page-header {
+  background: #f3f2ef;
+  border-bottom: 1px solid #e0ddd8;
+  padding: 48px 0 40px;
+}
+
+.policy-page-header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+/* Breadcrumb */
+.policy-page-header .breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 20px;
+}
+.policy-page-header .breadcrumb a {
+  color: #0a66c2;
+  text-decoration: none;
+}
+.policy-page-header .breadcrumb a:hover { text-decoration: underline; }
+.policy-page-header .breadcrumb .sep { color: #999; }
+
+/* Page title */
+.policy-page-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #191919;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+/* Effective date line */
+.policy-meta-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.83rem;
+  color: #555;
+  margin-top: 8px;
+}
+.policy-meta-row span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.policy-meta-row strong { color: #333; }
+
+/* ── Two-column layout ──────────────────────────────── */
+.policy-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 56px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  align-items: start;
+}
+
+/* ── Sticky sidebar TOC ─────────────────────────────── */
+.policy-sidebar {
+  position: sticky;
+  top: 80px;
+}
+
+.policy-toc-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #999;
+  padding: 0 12px 10px;
+  border-bottom: 1px solid #e0ddd8;
+  margin-bottom: 8px;
+}
+
+.policy-toc-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.policy-toc-item {
+  display: block;
+  padding: 7px 12px;
+  font-size: 0.83rem;
+  color: #555;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  line-height: 1.4;
+  transition: color 0.18s, background 0.18s, border-color 0.18s;
+  border-radius: 0 4px 4px 0;
+}
+
+.policy-toc-item:hover {
+  color: #0a66c2;
+  background: #eaf0fb;
+}
+
+.policy-toc-item.active {
+  color: #0a66c2;
+  border-left-color: #0a66c2;
+  font-weight: 600;
+  background: #eaf0fb;
+}
+
+/* ── Main content area ──────────────────────────────── */
+.policy-content {
+  min-width: 0;
+}
+
+/* ── Individual sections ────────────────────────────── */
+.policy-section {
+  padding: 36px 0;
+  border-bottom: 1px solid #e8e6e1;
+}
+.policy-section:first-child { padding-top: 0; }
+.policy-section:last-child { border-bottom: none; }
+
+.policy-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #191919;
+  margin: 0 0 16px;
+  line-height: 1.3;
+}
+
+.policy-section > p {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+/* ── Bullet list ────────────────────────────────────── */
+.policy-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.policy-list-item {
+  display: flex;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+.policy-list-item::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  background: #0a66c2;
+  border-radius: 50%;
+  margin-top: 8px;
+}
+
+/* ── Callout / highlight box (LinkedIn cyan style) ─── */
+.policy-highlight-box {
+  background: #eaf3fb;
+  border-left: 4px solid #0a66c2;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  color: #1a3a5c;
+  line-height: 1.7;
+  margin-top: 18px;
+}
+
+/* ── Info cards grid (shipping page) ───────────────── */
+.policy-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.policy-info-card {
+  background: #f3f2ef;
+  border: 1px solid #e0ddd8;
+  border-radius: 8px;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.policy-info-card-icon {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.policy-info-card-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.policy-info-card-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0a66c2;
+}
+
+/* ── CTA box at bottom ──────────────────────────────── */
+.policy-cta-box {
+  background: #f3f2ef;
+  border: 1px solid #e0ddd8;
+  border-radius: 12px;
+  padding: 36px 40px;
+  margin-top: 48px;
+  text-align: center;
+}
+
+.policy-cta-box h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #191919;
+  margin: 0 0 10px;
+}
+
+.policy-cta-box p {
+  font-size: 0.87rem;
+  color: #555;
+  margin: 0 0 24px;
+  line-height: 1.7;
+}
+
+.policy-cta-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.policy-cta-btns .btn-accent {
+  background: #0a66c2;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.policy-cta-btns .btn-accent:hover { background: #004182; }
+
+.policy-cta-btns .btn-outline {
+  background: transparent;
+  color: #0a66c2;
+  border: 2px solid #0a66c2;
+  padding: 10px 24px;
+  border-radius: 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.policy-cta-btns .btn-outline:hover {
+  background: #eaf0fb;
+}
+
+/* ── Mobile responsive ──────────────────────────────── */
+@media (max-width: 768px) {
+  .policy-page-header h1 { font-size: 1.6rem; }
+
+  .policy-layout {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 24px 16px 60px;
+  }
+
+  .policy-sidebar {
+    position: static;
+    border-bottom: 1px solid #e0ddd8;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+
+  .policy-toc-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .policy-toc-item {
+    border-left: none;
+    border-radius: 20px;
+    background: #f3f2ef;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+  }
+  .policy-toc-item.active {
+    background: #eaf0fb;
+    border-left: none;
+  }
+
+  .policy-cta-box { padding: 24px 20px; }
+  .policy-info-grid { grid-template-columns: repeat(2, 1fr); }
+}

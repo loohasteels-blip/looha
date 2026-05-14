@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="12" fill="#0B1F3A"/>
+  <!-- C-Channel cross section -->
+  <rect x="18" y="14" width="28" height="5" rx="1" fill="#E98800"/>
+  <rect x="18" y="14" width="6" height="36" rx="1" fill="#E98800" opacity="0.85"/>
+  <rect x="18" y="45" width="28" height="5" rx="1" fill="#E98800"/>
+  <!-- Depth indicator -->
+  <line x1="50" y1="16" x2="50" y2="48" stroke="#E98800" stroke-width="0.8" opacity="0.4" stroke-dasharray="2 2"/>
+</svg>

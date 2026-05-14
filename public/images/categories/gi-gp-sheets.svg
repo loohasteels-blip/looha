@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="12" fill="#0B1F3A"/>
+  <!-- Corrugated GI sheet pattern -->
+  <path d="M10 20 Q16 14, 22 20 Q28 26, 34 20 Q40 14, 46 20 Q52 26, 54 20" stroke="#E98800" stroke-width="2.5" fill="none"/>
+  <path d="M10 30 Q16 24, 22 30 Q28 36, 34 30 Q40 24, 46 30 Q52 36, 54 30" stroke="#E98800" stroke-width="2" fill="none" opacity="0.75"/>
+  <path d="M10 40 Q16 34, 22 40 Q28 46, 34 40 Q40 34, 46 40 Q52 46, 54 40" stroke="#E98800" stroke-width="1.5" fill="none" opacity="0.55"/>
+  <!-- Shield icon for galvanized -->
+  <path d="M32 46 L28 50 L32 54 L36 50 Z" fill="#E98800" opacity="0.6"/>
+</svg>

@@ -1,0 +1,558 @@
+/* ===== Product Detail Page ===== */
+
+/* Gallery */
+.pd-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pd-main-image-wrap {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    cursor: zoom-in;
+    aspect-ratio: 3 / 2;
+}
+
+.pd-main-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.pd-main-image-wrap:hover img {
+    transform: scale(1.15);
+}
+
+.pd-thumbnails {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.pd-thumbnails::-webkit-scrollbar {
+    height: 4px;
+}
+
+.pd-thumbnails::-webkit-scrollbar-thumb {
+    background: var(--color-secondary-light);
+    border-radius: 2px;
+}
+
+.pd-thumb {
+    flex-shrink: 0;
+    width: 80px;
+    height: 60px;
+    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--color-surface);
+    transition: all var(--transition);
+    padding: 4px;
+}
+
+.pd-thumb:hover {
+    border-color: var(--color-secondary-light);
+}
+
+.pd-thumb.active {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(10, 31, 68, 0.15);
+}
+
+.pd-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Product Info Header */
+.pd-info-header {
+    margin-bottom: 20px;
+}
+
+.pd-category-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgba(10, 31, 68, 0.06);
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.pd-product-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1.25;
+    margin-bottom: 6px;
+}
+
+.pd-price-updated {
+    font-size: 0.78rem;
+    color: var(--color-text-lighter);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Price Block */
+.pd-price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pd-price-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    letter-spacing: -0.5px;
+}
+
+.pd-price-unit {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+.pd-availability {
+    margin-left: auto;
+}
+
+/* Trust Badges */
+.pd-trust-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.pd-trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 8px;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    text-align: center;
+    transition: all var(--transition);
+}
+
+.pd-trust-item:hover {
+    border-color: var(--color-primary);
+    background: rgba(10, 31, 68, 0.03);
+}
+
+.pd-trust-item .trust-icon {
+    font-size: 1.3rem;
+}
+
+.pd-trust-item .trust-text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+/* Specification Table */
+.pd-specs {
+    margin-bottom: 24px;
+}
+
+.pd-specs h3 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    color: var(--color-primary);
+}
+
+.pd-specs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pd-specs-table tr {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pd-specs-table tr:last-child {
+    border-bottom: none;
+}
+
+.pd-specs-table td {
+    padding: 10px 12px;
+    font-size: 0.88rem;
+}
+
+.pd-specs-table td:first-child {
+    color: var(--color-text-light);
+    font-weight: 500;
+    width: 45%;
+    background: var(--color-surface);
+}
+
+.pd-specs-table td:last-child {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Size Selector */
+.pd-sizes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.pd-size-chip {
+    padding: 8px 18px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: #fff;
+    transition: all var(--transition);
+    text-decoration: none;
+    color: var(--color-text);
+}
+
+.pd-size-chip:hover {
+    border-color: var(--color-primary);
+    background: rgba(10, 31, 68, 0.03);
+}
+
+.pd-size-chip.active {
+    border-color: var(--color-primary);
+    background: rgba(10, 31, 68, 0.07);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Brand Selector */
+.pd-brand-select {
+    margin-bottom: 20px;
+}
+
+.pd-brand-select label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    display: block;
+    color: var(--color-text);
+}
+
+/* Layout */
+.pd-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 28px;
+}
+
+.pd-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Calculator Card */
+.pd-calc-card {
+    position: sticky;
+    top: 100px;
+}
+
+.pd-calc-card h3 {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pd-breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9rem;
+}
+
+.pd-breakdown-row:last-child {
+    border-bottom: none;
+}
+
+.pd-total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0 4px;
+    font-size: 1.2rem;
+}
+
+/* Action Buttons */
+.pd-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.pd-bulk-note {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--color-danger);
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ===== Reviews Section ===== */
+.pd-reviews {
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--color-border);
+}
+
+.pd-reviews-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.pd-reviews-header h2 {
+    font-size: 1.4rem;
+    color: var(--color-primary);
+}
+
+.pd-rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.pd-rating-big {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--color-primary);
+    font-family: var(--font-heading);
+    line-height: 1;
+}
+
+.pd-rating-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.pd-stars {
+    display: flex;
+    gap: 2px;
+    font-size: 1.1rem;
+    color: #F59E0B;
+}
+
+.pd-rating-count {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+}
+
+/* Review Card */
+.pd-review-card {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.pd-review-card:last-child {
+    border-bottom: none;
+}
+
+.pd-review-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.pd-review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.pd-review-meta {
+    flex: 1;
+}
+
+.pd-review-meta strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+.pd-review-meta small {
+    font-size: 0.75rem;
+    color: var(--color-text-lighter);
+}
+
+.pd-review-stars {
+    font-size: 0.85rem;
+    color: #F59E0B;
+}
+
+.pd-review-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-light);
+}
+
+/* Review Modal */
+.pd-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+.pd-modal {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 480px;
+    padding: 32px;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+}
+
+.pd-modal h3 {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    color: var(--color-primary);
+}
+
+.pd-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--color-text-lighter);
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+}
+
+.pd-modal-close:hover {
+    color: var(--color-text);
+}
+
+.pd-star-input {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.pd-star-input button {
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 2px;
+    transition: transform 0.15s;
+    color: #D1D5DB;
+}
+
+.pd-star-input button:hover {
+    transform: scale(1.2);
+}
+
+.pd-star-input button.filled {
+    color: #F59E0B;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pd-layout {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .pd-calc-card {
+        position: static;
+    }
+
+    .pd-product-title {
+        font-size: 1.3rem;
+    }
+
+    .pd-price-value {
+        font-size: 1.8rem;
+    }
+
+    .pd-trust-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .pd-trust-item {
+        padding: 10px 6px;
+    }
+
+    .pd-trust-item .trust-text {
+        font-size: 0.65rem;
+    }
+
+    .pd-rating-big {
+        font-size: 2rem;
+    }
+
+    .pd-reviews-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .pd-thumbnails {
+        scroll-snap-type: x mandatory;
+    }
+
+    .pd-thumb {
+        scroll-snap-align: start;
+    }
+
+    .pd-main-image-wrap:hover img {
+        transform: none;
+    }
+
+    .pd-actions {
+        flex-direction: column;
+    }
+}
