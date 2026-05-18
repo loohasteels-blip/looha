@@ -10,7 +10,7 @@ import './OrderTracking.css';
 export default function OrderTracking() {
     const { orders, ORDER_STATUSES } = useOrders();
     const { isLoggedIn } = useAuth();
-    const [searchParams] = useSearchParams();
+    const searchParams = useSearchParams();
     const newOrderId = searchParams.get('new');
     const [searchQuery, setSearchQuery] = useState('');
 
