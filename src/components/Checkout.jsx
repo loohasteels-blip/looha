@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrderContext';
 import { useAuth } from '../context/AuthContext';
@@ -23,6 +23,16 @@ export default function Checkout() {
     const [geoLoading, setGeoLoading] = useState(false);
     const [geoError, setGeoError] = useState('');
     const [placing, setPlacing] = useState(false);
+    const [payError, setPayError] = useState('');
+
+    // Load Razorpay script once on mount
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.async = true;
+        document.body.appendChild(script);
+        return () => { document.body.removeChild(script); };
+    }, []);
 
     if (items.length === 0) {
         return (
@@ -98,34 +108,94 @@ export default function Checkout() {
 
     const handlePlaceOrder = async () => {
         if (placing) return;
-        setPlacing(true);
+        setPayError('');
         const addr = addresses.find(a => a.id === selectedAddress);
         const orderItems = cartPricing.map(cp => ({ ...cp.item, pricing: cp.pricing }));
-        const order = await createOrder({
-            items: orderItems,
-            address: addr,
-            paymentMethod,
-            total: grandTotal,
-            user: { name: user.name, email: user.email, phone: user.phone },
-        });
-        setPlacing(false);
-        if (order) {
-            // WhatsApp admin notification — must be in click-handler context to avoid popup blocker
-            const itemsSummary = orderItems
-                .map(i => `${i.categoryName} ${i.size} × ${i.quantity}${i.unit}`)
-                .join(', ');
-            const adminMsg = [
-                `NEW ORDER: ${order.orderNumber}`,
-                `Customer: ${user.name} | ${user.phone}`,
-                `Items: ${itemsSummary}`,
-                `Total: ₹${grandTotal.toLocaleString('en-IN')}`,
-                `Payment: ${paymentMethod.toUpperCase()}`,
-                `View: looha.in/admin`,
-            ].join('\n');
-            window.open(`https://wa.me/918885999718?text=${encodeURIComponent(adminMsg)}`, '_blank');
-            clearCart();
-            router.push(`/orders?new=${order.id}`);
+
+        // ── RTGS / COD: direct order creation (no payment popup) ──
+        if (paymentMethod !== 'online') {
+            setPlacing(true);
+            const order = await createOrder({
+                items: orderItems, address: addr,
+                paymentMethod, total: grandTotal,
+                user: { name: user.name, email: user.email, phone: user.phone },
+                paymentStatus: 'pending',
+            });
+            setPlacing(false);
+            if (order) {
+                const itemsSummary = orderItems.map(i => `${i.categoryName} ${i.size} × ${i.quantity}${i.unit}`).join(', ');
+                const adminMsg = [
+                    `NEW ORDER: ${order.orderNumber}`,
+                    `Customer: ${user.name} | ${user.phone}`,
+                    `Items: ${itemsSummary}`,
+                    `Total: ₹${grandTotal.toLocaleString('en-IN')}`,
+                    `Payment: ${paymentMethod.toUpperCase()} (PENDING)`,
+                    `View: looha.in/admin`,
+                ].join('\n');
+                window.open(`https://wa.me/918885999718?text=${encodeURIComponent(adminMsg)}`, '_blank');
+                clearCart();
+                router.push(`/orders?new=${order.id}`);
+            }
+            return;
         }
+
+        // ── ONLINE: Razorpay Checkout ──
+        if (!window.Razorpay) {
+            setPayError('Payment gateway not loaded. Please refresh and try again.');
+            return;
+        }
+        setPlacing(true);
+        const options = {
+            key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+            amount: Math.round(grandTotal * 100), // paise
+            currency: 'INR',
+            name: 'LOOHA Steel',
+            description: `Order — ${orderItems.map(i => i.categoryName).join(', ')}`,
+            image: '/logo.png',
+            prefill: {
+                name: user.name || '',
+                email: user.email || '',
+                contact: (user.phone || '').replace(/\D/g, ''),
+            },
+            notes: { address: `${addr.line1}, ${addr.city}` },
+            theme: { color: '#0A1F44' },
+            handler: async (response) => {
+                const order = await createOrder({
+                    items: orderItems, address: addr,
+                    paymentMethod: 'online', total: grandTotal,
+                    user: { name: user.name, email: user.email, phone: user.phone },
+                    paymentStatus: 'paid',
+                    razorpayPaymentId: response.razorpay_payment_id,
+                });
+                setPlacing(false);
+                if (order) {
+                    const itemsSummary = orderItems.map(i => `${i.categoryName} ${i.size} × ${i.quantity}${i.unit}`).join(', ');
+                    const adminMsg = [
+                        `✅ PAID ORDER: ${order.orderNumber}`,
+                        `Customer: ${user.name} | ${user.phone}`,
+                        `Items: ${itemsSummary}`,
+                        `Total: ₹${grandTotal.toLocaleString('en-IN')}`,
+                        `Razorpay ID: ${response.razorpay_payment_id}`,
+                        `View: looha.in/admin`,
+                    ].join('\n');
+                    window.open(`https://wa.me/918885999718?text=${encodeURIComponent(adminMsg)}`, '_blank');
+                    clearCart();
+                    router.push(`/orders?new=${order.id}`);
+                }
+            },
+            modal: {
+                ondismiss: () => {
+                    setPlacing(false);
+                    setPayError('Payment cancelled. Please try again.');
+                }
+            }
+        };
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', (resp) => {
+            setPlacing(false);
+            setPayError(`Payment failed: ${resp.error.description}`);
+        });
+        rzp.open();
     };
 
     return (
@@ -307,23 +377,38 @@ export default function Checkout() {
                                 <strong style={{ color: 'var(--color-accent)' }}>₹{grandTotal.toLocaleString()}</strong>
                             </div>
 
+                            {payError && (
+                                <div style={{ background: '#fef2f2', color: '#b91c1c', fontSize: '0.82rem', padding: '10px 14px', borderRadius: 8, marginTop: 12, border: '1px solid #fecaca', fontWeight: 500 }}>
+                                    ⚠️ {payError}
+                                </div>
+                            )}
+
                             <div style={{ display: 'flex', gap: 12, marginTop: 16, justifyContent: 'space-between' }}>
                                 <button className="btn btn-ghost" onClick={() => setStep(2)} disabled={placing}>← Back</button>
                                 <button
                                     className="btn btn-accent btn-lg"
                                     onClick={handlePlaceOrder}
                                     disabled={placing}
-                                    style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 160, justifyContent: 'center' }}
+                                    style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 180, justifyContent: 'center' }}
                                 >
                                     {placing ? (
                                         <>
                                             <div style={{ width: 16, height: 16, border: '2.5px solid rgba(255,255,255,0.4)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
-                                            Placing Order…
+                                            {paymentMethod === 'online' ? 'Opening Payment…' : 'Placing Order…'}
                                         </>
                                     ) : (
                                         <>
-                                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                                            Place Order
+                                            {paymentMethod === 'online' ? (
+                                                <>
+                                                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
+                                                    Pay ₹{grandTotal.toLocaleString()}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                                                    Place Order
+                                                </>
+                                            )}
                                         </>
                                     )}
                                 </button>
