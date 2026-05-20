@@ -1,4 +1,3 @@
-'use client';
 import BrandDetailComponent from '../../../components/BrandDetail';
 
 export default function BrandDetailPage() {
