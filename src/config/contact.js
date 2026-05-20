@@ -1,7 +1,7 @@
 // LOOHA contact configuration
 // Single source of truth for WhatsApp and contact details
 
-export const WHATSAPP_PHONE = import.meta.env.VITE_WHATSAPP_PHONE || '918885999718';
+export const WHATSAPP_PHONE = '918885999718';
 
 export const COMPANY_PHONE = '+91 88859 99718';
 export const COMPANY_PHONE_RAW = '8885999718';
