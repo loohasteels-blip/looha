@@ -1,9 +1,8 @@
 'use client'
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { brands } from './Brands';
+import { brands } from '../data/brands';
 import { buildWhatsAppUrl } from '../utils/whatsapp';
 import './Brands.css';
 
@@ -45,7 +44,7 @@ export default function BrandDetail() {
     setQuantities(prev => ({ ...prev, [sizeLabel]: { ...prev[sizeLabel], [field]: value } }));
   };
 
-  const whatsappMsg = `Hi, I'm interested in ${brand.name} steel products. Please share current prices.`;
+  const whatsappMsg = buildWhatsAppUrl({ productName: brand.name });
 
   return (
     <div className="brand-detail-page page">
@@ -177,7 +176,7 @@ export default function BrandDetail() {
               <button className="btn btn-primary btn-block">Request a Call Back</button>
               <div className="sidebar-divider"><span>or</span></div>
               <a
-                href={buildWhatsAppUrl(`Hi! I want to enquire about ${brand.name} steel. Please help me with pricing.`)}
+                href={buildWhatsAppUrl({ productName: brand.name })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-success btn-block"
