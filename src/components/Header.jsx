@@ -50,9 +50,10 @@ export default function Header() {
                         </span>
                     </button>
 
-                    <Link href="/" className="logo" title="LOOHA Steel – Steel | Strength | Trust">
+                    <Link href="/" className="logo" title="LOOHA Steel – Steel | Strength | Trust" style={{ outline: 'none', boxShadow: 'none', WebkitTapHighlightColor: 'transparent' }}>
                         <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
                             <img src="/logo.png" alt="LOOHA Steel – Steel Strength Trust" className="logo-img"
+                                style={{ outline: 'none', boxShadow: 'none' }}
                                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
                             />
                             <span className="logo-text" style={{ display: 'none', flexDirection: 'column', alignItems: 'flex-start' }}>

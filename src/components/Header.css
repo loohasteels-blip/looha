@@ -22,16 +22,29 @@
     align-items: center;
     flex-shrink: 0;
     line-height: 1;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    text-decoration: none;
 }
 
 .logo:hover,
 .logo:focus,
-.logo:focus-visible {
-    outline: none;
-    box-shadow: none;
-    background: none;
+.logo:focus-visible,
+.logo:focus-within,
+.logo:active,
+.logo:visited {
+    outline: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    filter: none !important;
+}
+
+.logo *,
+.logo *:focus,
+.logo *:hover {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .logo-img {
