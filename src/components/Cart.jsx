@@ -82,28 +82,26 @@ export default function Cart() {
                             <div className="card-body">
                                 <h3 style={{ marginBottom: 20 }}>Order Summary</h3>
                                 {cartPricing.map(({ item, pricing }) => (
-                                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', fontSize: '0.85rem' }}>
-                                        <span className="text-light">{item.size} × {item.quantity}</span>
-                                        <span>₹{pricing.subtotal.toLocaleString()}</span>
+                                    <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '6px 0', fontSize: '0.85rem', gap: 8, minWidth: 0 }}>
+                                        <span className="text-light" style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.size} × {item.quantity}</span>
+                                        <span style={{ flexShrink: 0, fontWeight: 600, whiteSpace: 'nowrap' }}>₹{pricing.subtotal.toLocaleString()}</span>
                                     </div>
                                 ))}
                                 <div style={{ borderTop: '1px solid var(--color-border)', marginTop: 12, paddingTop: 12 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.85rem' }}>
-                                        <span className="text-light">Loading Charges</span>
-                                        <span>₹{cartPricing.reduce((s, cp) => s + cp.pricing.loadingCharges, 0).toLocaleString()}</span>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.85rem' }}>
-                                        <span className="text-light">Transport Charges</span>
-                                        <span>₹{cartPricing.reduce((s, cp) => s + cp.pricing.transportCharges, 0).toLocaleString()}</span>
-                                    </div>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: '0.85rem' }}>
-                                        <span className="text-light">GST (18%)</span>
-                                        <span>₹{cartPricing.reduce((s, cp) => s + cp.pricing.gstAmount, 0).toLocaleString()}</span>
-                                    </div>
+                                    {[
+                                        { label: 'Loading Charges', val: cartPricing.reduce((s, cp) => s + cp.pricing.loadingCharges, 0) },
+                                        { label: 'Transport Charges', val: cartPricing.reduce((s, cp) => s + cp.pricing.transportCharges, 0) },
+                                        { label: 'GST (18%)', val: cartPricing.reduce((s, cp) => s + cp.pricing.gstAmount, 0) },
+                                    ].map(({ label, val }) => (
+                                        <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '4px 0', fontSize: '0.85rem', gap: 8 }}>
+                                            <span className="text-light" style={{ flex: 1 }}>{label}</span>
+                                            <span style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>₹{val.toLocaleString()}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div style={{ borderTop: '2px solid var(--color-primary)', marginTop: 12, paddingTop: 12, display: 'flex', justifyContent: 'space-between', fontSize: '1.15rem' }}>
+                                <div style={{ borderTop: '2px solid var(--color-primary)', marginTop: 12, paddingTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
                                     <strong>Grand Total</strong>
-                                    <strong style={{ color: 'var(--color-accent)' }}>₹{grandTotal.toLocaleString()}</strong>
+                                    <strong style={{ color: 'var(--color-accent)', flexShrink: 0, whiteSpace: 'nowrap' }}>₹{grandTotal.toLocaleString()}</strong>
                                 </div>
                                 <div className="text-lighter" style={{ fontSize: '0.75rem', marginTop: 4 }}>
                                     Total Weight: {totalWeight.toLocaleString()}kg ({(totalWeight / 1000).toFixed(2)}T)

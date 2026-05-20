@@ -326,12 +326,12 @@ export default function Checkout() {
                         <div className="card-body">
                             <h3 style={{ marginBottom: 20 }}>📋 Order Review</h3>
                             {cartPricing.map(({ item, pricing }) => (
-                                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--color-border)' }}>
-                                    <div>
-                                        <strong>{item.categoryName} — {item.size}</strong>
+                                <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '10px 0', borderBottom: '1px solid var(--color-border)', gap: 12 }}>
+                                    <div style={{ flex: 1, minWidth: 0 }}>
+                                        <strong style={{ display: 'block', wordBreak: 'break-word' }}>{item.categoryName} — {item.size}</strong>
                                         <div className="text-light" style={{ fontSize: '0.8rem' }}>{item.quantity} {item.unit} × ₹{item.pricePerTon.toLocaleString()}/ton | {pricing.totalWeightKg}kg</div>
                                     </div>
-                                    <strong>₹{pricing.total.toLocaleString()}</strong>
+                                    <strong style={{ flexShrink: 0, whiteSpace: 'nowrap' }}>₹{pricing.total.toLocaleString()}</strong>
                                 </div>
                             ))}
                             <div style={{ padding: '16px 0', fontSize: '1.2rem', display: 'flex', justifyContent: 'space-between', borderTop: '2px solid var(--color-primary)', marginTop: 8 }}>
