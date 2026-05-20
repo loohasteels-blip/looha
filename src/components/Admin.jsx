@@ -84,27 +84,32 @@ function GSTInvoice({ order, onClose }) {
                     <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', borderBottom:'2px solid #000', paddingBottom:12, marginBottom:16 }}>
                         <div style={{ display:'flex', alignItems:'center', gap:12 }}>
                             <img src="https://www.looha.in/logo.png" alt="LOOHA" style={{ height:64, width:'auto' }} />
-                            <div>
-                                <div style={{ fontSize:22, fontWeight:900, letterSpacing:1 }}>LOOHA STEELS</div>
-                                <div style={{ fontSize:11, color:'#555', marginTop:2 }}>STEEL &amp; INDUSTRIAL SOLUTIONS</div>
-                            </div>
                         </div>
                         <div style={{ fontSize:22, fontWeight:700, letterSpacing:3 }}>INVOICE</div>
                     </div>
 
                     {/* BILL TO + META */}
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:16 }}>
-                        <div style={{ fontSize:12, lineHeight:1.95 }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:16, gap:16 }}>
+                        {/* Invoice To */}
+                        <div style={{ fontSize:12, lineHeight:1.95, flex:1 }}>
                             <div><strong>Invoice To :</strong></div>
                             <div>{order.userName || order.user?.name || 'Customer Name'}</div>
                             <div>{order.address?.line1 || 'Customer Address'}{order.address?.line2 ? ', '+order.address.line2 : ''}</div>
                             <div>{order.address ? `${order.address.city}, ${order.address.state} - ${order.address.pincode}` : 'City, State - PIN'}</div>
-                            <div>Phone: {order.userPhone || order.user?.phone || '0000000000'}</div>
                         </div>
+                        {/* Ship To */}
+                        <div style={{ fontSize:12, lineHeight:1.95, flex:1 }}>
+                            <div><strong>Ship To :</strong></div>
+                            <div>{order.address?.line1 || 'Delivery Address'}{order.address?.line2 ? ', '+order.address.line2 : ''}</div>
+                            <div>{order.address ? `${order.address.city}, ${order.address.state} - ${order.address.pincode}` : 'City, State - PIN'}</div>
+                        </div>
+                        {/* Meta */}
                         <div style={{ fontSize:12, lineHeight:2, textAlign:'right' }}>
-                            <div><strong>Invoice No. &nbsp;:</strong> {invoiceNo}</div>
+                            <div><strong>Invoice No.&nbsp;&nbsp;:</strong> {invoiceNo}</div>
                             <div><strong>Invoice Date :</strong> {fmt(orderDate)}</div>
-                            <div><strong>Due Date &nbsp;&nbsp;&nbsp;:</strong> {fmt(dueDate)}</div>
+                            <div><strong>Due Date&nbsp;&nbsp;&nbsp;&nbsp;:</strong> {fmt(dueDate)}</div>
+                            <div><strong>Payment Terms :</strong> 100% Advance</div>
+                            <div><strong>Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</strong> {order.userPhone || order.user?.phone || '—'}</div>
                         </div>
                     </div>
 
@@ -162,13 +167,21 @@ function GSTInvoice({ order, onClose }) {
                     </div>
 
                     {/* FOOTER */}
-                    <div style={{ marginTop:24, borderTop:'2px solid #000', paddingTop:12, fontSize:11, lineHeight:1.9 }}>
-                        <div style={{ fontSize:15, fontWeight:900, marginBottom:2 }}>LOOHA STEELS</div>
-                        <div><strong>GST Billing Entity : </strong>MBJSTEELS</div>
-                        <div><strong>GSTIN : </strong>37GOUPS1032G1ZJ</div>
-                        <div>Near Mulapet Gate Centre, Nellore - 524003, Andhra Pradesh</div>
-                        <div>📞 8885999718 &nbsp;|&nbsp; ✉ mbjsteels@gmail.com</div>
-                        <div style={{ marginTop:8, fontStyle:'italic', color:'#555' }}>This invoice is generated under MBJSTEELS for LOOHA brand operations.</div>
+                    <div style={{ marginTop:28, display:'flex', justifyContent:'space-between', alignItems:'flex-end', borderTop:'2px solid #000', paddingTop:16 }}>
+                        {/* Left: Company Details */}
+                        <div style={{ fontSize:11, lineHeight:1.9 }}>
+                            <div><strong>GST Billing Entity : </strong>MBJSTEELS</div>
+                            <div><strong>GSTIN : </strong>37GOUPS1032G1ZJ</div>
+                            <div>Near Mulapet Gate Centre, Nellore - 524003, Andhra Pradesh</div>
+                            <div>📞 8885999718 &nbsp;|&nbsp; ✉ mbjsteels@gmail.com</div>
+                        </div>
+                        {/* Right: Authorised Signature */}
+                        <div style={{ textAlign:'center', fontSize:11 }}>
+                            <div style={{ borderBottom:'1px solid #000', width:180, marginBottom:6, paddingBottom:40 }}></div>
+                            <div style={{ fontWeight:700, fontSize:12 }}>Authorised Signature</div>
+                            <div style={{ fontWeight:900, fontSize:13, letterSpacing:1, marginTop:2 }}>LOOHA</div>
+                            <div style={{ fontSize:10, color:'#555' }}>A Brand by MBJSteels</div>
+                        </div>
                     </div>
                 </div>
             </div>
