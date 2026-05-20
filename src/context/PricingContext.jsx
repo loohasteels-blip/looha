@@ -13,6 +13,9 @@ export function PricingProvider({ children }) {
     const [charges, setCharges] = useState(defaultCharges);
     const [firestoreBrandMultipliers, setFirestoreBrandMultipliers] = useState({});
     const [pricingLoaded, setPricingLoaded] = useState(false);
+    // Track whether the FIRST snapshot has been delivered so Admin can
+    // seed its local state exactly once and not re-seed on every save.
+    const [initialPricesLoaded, setInitialPricesLoaded] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, 'pricing'), (snapshot) => {
@@ -23,9 +26,11 @@ export function PricingProvider({ children }) {
             });
             setFirestorePrices(prices);
             setPricingLoaded(true);
+            setInitialPricesLoaded(true);
         }, () => {
             console.warn('Pricing: using local fallback prices.');
             setPricingLoaded(true);
+            setInitialPricesLoaded(true);
         });
         return () => unsubscribe();
     }, []);
@@ -99,7 +104,7 @@ export function PricingProvider({ children }) {
     }, []);
 
     return (
-        <PricingContext.Provider value={{ firestorePrices, charges, pricingLoaded, getPrice, getAllRates, saveRates, saveCharges, firestoreBrandMultipliers, getBrandMultipliers, saveBrandMultipliers }}>
+        <PricingContext.Provider value={{ firestorePrices, charges, pricingLoaded, initialPricesLoaded, getPrice, getAllRates, saveRates, saveCharges, firestoreBrandMultipliers, getBrandMultipliers, saveBrandMultipliers }}>
             {children}
         </PricingContext.Provider>
     );

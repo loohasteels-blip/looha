@@ -192,7 +192,7 @@ function GSTInvoice({ order, onClose }) {
 export default function Admin() {
     const { isAdmin, isLoggedIn } = useAuth();
     const { orders, updateOrderStatus, ORDER_STATUSES } = useOrders();
-    const { getAllRates, charges: firestoreCharges, saveRates, saveCharges, firestoreBrandMultipliers, getBrandMultipliers, saveBrandMultipliers } = usePricing();
+    const { getAllRates, charges: firestoreCharges, saveRates, saveCharges, firestoreBrandMultipliers, getBrandMultipliers, saveBrandMultipliers, initialPricesLoaded } = usePricing();
     const router = useRouter();
     const [activeTab, setActiveTab] = useState('dashboard');
     const [invoiceOrder, setInvoiceOrder] = useState(null);
@@ -243,10 +243,14 @@ export default function Admin() {
     const [adminCharges, setAdminCharges] = useState(firestoreCharges);
     const [chargesSaved, setChargesSaved] = useState(false);
 
-    // Sync rates from PricingContext
+    // Sync rates from PricingContext — ONLY on the very first load so that
+    // subsequent Firestore writes (onSnapshot) don't clobber the admin's edits.
+    const ratesSeeded = useRef(false);
     useEffect(() => {
+        if (!initialPricesLoaded || ratesSeeded.current) return;
+        ratesSeeded.current = true;
         setRates(getAllRates());
-    }, [getAllRates]);
+    }, [initialPricesLoaded, getAllRates]);
 
     // Sync charges from PricingContext
     useEffect(() => {
@@ -307,6 +311,9 @@ export default function Admin() {
             setRatesSaved(true);
             setLastRatesSaved(new Date());
             setTimeout(() => setRatesSaved(false), 2000);
+        } else {
+            const errMsg = result.message || result2.message || 'Unknown error';
+            alert('❌ Failed to save rates: ' + errMsg + '\n\nPlease make sure you are logged in as Admin and try again.');
         }
     };
 
@@ -342,6 +349,8 @@ export default function Admin() {
         if (result.success) {
             setChargesSaved(true);
             setTimeout(() => setChargesSaved(false), 2000);
+        } else {
+            alert('❌ Failed to save charges: ' + (result.message || 'Unknown error') + '\n\nPlease make sure you are logged in as Admin and try again.');
         }
     };
 
@@ -613,6 +622,16 @@ export default function Admin() {
                                                                 <span className="order-amount">₹{order.total?.toLocaleString('en-IN')}</span>
                                                                 <span className={`order-payment-tag ${payClass}`}>
                                                                     {order.paymentMethod?.toUpperCase()}
+                                                                </span>
+                                                                {/* ── Payment Status Badge ── */}
+                                                                <span style={{
+                                                                    fontSize: '0.65rem', fontWeight: 700, padding: '2px 8px',
+                                                                    borderRadius: 20, letterSpacing: 0.5,
+                                                                    background: order.paymentStatus === 'paid' ? '#dcfce7' : '#fef9c3',
+                                                                    color: order.paymentStatus === 'paid' ? '#16a34a' : '#854d0e',
+                                                                    border: `1px solid ${order.paymentStatus === 'paid' ? '#86efac' : '#fde68a'}`,
+                                                                }}>
+                                                                    {order.paymentStatus === 'paid' ? '✓ PAID' : '⏳ PENDING'}
                                                                 </span>
                                                                 <span className="order-date-tag">
                                                                     {order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
