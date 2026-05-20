@@ -12,7 +12,7 @@ import { calculatePricing } from '../data/products';
 export default function Checkout() {
     const { items, clearCart } = useCart();
     const { addresses, addAddress, createOrder } = useOrders();
-    const { isLoggedIn, user } = useAuth();
+    const { isLoggedIn, user, loading: authLoading } = useAuth();
     const { charges } = usePricing();
     const router = useRouter();
     const [step, setStep] = useState(1);
@@ -43,12 +43,22 @@ export default function Checkout() {
         );
     }
 
+    // While Firebase auth is initializing, show spinner — prevents flash of "Please login"
+    if (authLoading) {
+        return (
+            <div className="page container" style={{ textAlign: 'center', paddingTop: 80 }}>
+                <div style={{ fontSize: '2rem', marginBottom: 16 }}>⏳</div>
+                <p className="text-light">Loading...</p>
+            </div>
+        );
+    }
+
     if (!isLoggedIn) {
         return (
             <div className="page container" style={{ textAlign: 'center', paddingTop: 80 }}>
                 <h2>Please login to continue</h2>
                 <p className="text-light mt-1 mb-3">You need to be logged in to place an order</p>
-                <Link href="/login" className="btn btn-primary">Login / Register</Link>
+                <Link href={`/login?from=/checkout`} className="btn btn-primary">Login / Register</Link>
             </div>
         );
     }
