@@ -39,7 +39,7 @@ export default function Cart() {
                     <button className="btn btn-ghost btn-sm" onClick={clearCart}>Clear All</button>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 32 }}>
+                <div className="cart-layout">
                     <div>
                         {cartPricing.map(({ item, pricing }) => (
                             <div key={item.id} className="card" style={{ marginBottom: 12 }}>
@@ -78,7 +78,7 @@ export default function Cart() {
                     </div>
 
                     <div>
-                        <div className="card" style={{ position: 'sticky', top: 100 }}>
+                        <div className="card cart-summary-sticky" style={{ position: 'sticky', top: 100 }}>
                             <div className="card-body">
                                 <h3 style={{ marginBottom: 20 }}>Order Summary</h3>
                                 {cartPricing.map(({ item, pricing }) => (
@@ -115,11 +115,5 @@ export default function Cart() {
                 </div>
             </div>
 
-            <style>{`
-        @media (max-width: 768px) {
-          .page > .container > div { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
-        </div>
     );
 }
