@@ -311,8 +311,8 @@ export default function Checkout() {
                             ) : (
                                 <button className="btn btn-outline btn-sm" onClick={() => setShowAddForm(true)}>+ Add New Address</button>
                             )}
-                            <div style={{ marginTop: 24, textAlign: 'right' }}>
-                                <button className="btn btn-primary btn-lg" disabled={!selectedAddress} onClick={() => setStep(2)}>
+                            <div style={{ marginTop: 24, display: 'flex', justifyContent: 'flex-end' }}>
+                                <button className="btn btn-primary btn-lg" style={{ width: '100%' }} disabled={!selectedAddress} onClick={() => setStep(2)}>
                                     Continue to Review →
                                 </button>
                             </div>
@@ -338,9 +338,9 @@ export default function Checkout() {
                                 <strong>Grand Total</strong>
                                 <strong style={{ color: 'var(--color-accent)' }}>₹{grandTotal.toLocaleString()}</strong>
                             </div>
-                            <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', gap: 12, marginTop: 24, justifyContent: 'space-between', flexWrap: 'wrap' }}>
                                 <button className="btn btn-ghost" onClick={() => setStep(1)}>← Back</button>
-                                <button className="btn btn-primary btn-lg" onClick={() => setStep(3)}>Continue to Payment →</button>
+                                <button className="btn btn-primary btn-lg" onClick={() => setStep(3)} style={{ flex: 1, minWidth: 180 }}>Continue to Payment →</button>
                             </div>
                         </div>
                     </div>
@@ -393,13 +393,13 @@ export default function Checkout() {
                                 </div>
                             )}
 
-                            <div style={{ display: 'flex', gap: 12, marginTop: 16, justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', gap: 12, marginTop: 16, justifyContent: 'space-between', flexWrap: 'wrap' }}>
                                 <button className="btn btn-ghost" onClick={() => setStep(2)} disabled={placing}>← Back</button>
                                 <button
                                     className="btn btn-accent btn-lg"
                                     onClick={handlePlaceOrder}
                                     disabled={placing}
-                                    style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 180, justifyContent: 'center' }}
+                                    style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 180, justifyContent: 'center' }}
                                 >
                                     {placing ? (
                                         <>
