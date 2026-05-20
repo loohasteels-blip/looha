@@ -52,14 +52,14 @@ export default function Header() {
 
                     <Link href="/" className="logo" title="LOOHA Steel – Steel | Strength | Trust">
                         <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
-                            <img src="/logo.png" alt="LOOHA Steel – Steel Strength Trust" className="logo-img" style={{ height: '52px', width: 'auto' }}
+                            <img src="/logo.png" alt="LOOHA Steel – Steel Strength Trust" className="logo-img"
                                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
                             />
                             <span className="logo-text" style={{ display: 'none', flexDirection: 'column', alignItems: 'flex-start' }}>
                                 <span style={{ fontSize: '1.8rem', fontWeight: 900, letterSpacing: '3px', color: 'var(--color-primary)' }}>LOOHA</span>
                                 <span style={{ fontSize: '0.5rem', letterSpacing: '3px', color: 'var(--color-accent)', fontWeight: 600 }}>STEEL | STRENGTH | TRUST</span>
                             </span>
-                            <span style={{ fontSize: '0.58rem', letterSpacing: '1.5px', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', marginTop: '1px', whiteSpace: 'nowrap' }}>
+                            <span className="logo-brand-sub">
                                 A Brand By MBJ Steels
                             </span>
                         </span>
