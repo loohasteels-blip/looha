@@ -612,16 +612,18 @@ function SingleSizeSelector({ items, categoryName, charges, getPrice }) {
     );
 }
 
-// ─── Pipe Type Tabs config ────────────────────────────────────────────────────
-// MS Pipes: Round (nb), Square hollow, Rectangular hollow
-const MS_PIPE_TYPE_TABS = [
+// ─── Pipe Type Tabs config (ms-pipes / gp-pipes pages) ─────────────────────
+// Both MS Pipes and GP Pipes are round pipes (IS 1239) with NB/OD/thickness structure.
+// Square and Rectangular hollow sections are MS-only and appear as extra tabs on the
+// ms-pipes page only.
+const PIPE_TYPE_TABS = [
     { value: 'round',  label: 'Round Pipes',        groupKey: 'nb',       groupLabel: 'Pipe Size (NB)',    groupFormat: v => `${v} NB` },
     { value: 'square', label: 'Square Tubes',        catId: 'ms-square-hollow', groupKey: 'size',     groupLabel: 'Tube Size (mm)',    groupFormat: v => v },
     { value: 'rect',   label: 'Rectangular Tubes',   catId: 'ms-rect-hollow',   groupKey: 'rectSize', groupLabel: 'Tube Size (mm)',    groupFormat: v => v },
 ];
-// GP Pipes: Rectangular only (no round — gpPipesData has rectSize, not nb)
+// GP Pipes show only the Round tab (no Square/Rect hollow sections for galvanized)
 const GP_PIPE_TYPE_TABS = [
-    { value: 'rect',   label: 'GP Pipes (Rect)',     groupKey: 'rectSize', groupLabel: 'Pipe Size (mm)',    groupFormat: v => v },
+    { value: 'round',  label: 'Round Pipes',        groupKey: 'nb',       groupLabel: 'Pipe Size (NB)',    groupFormat: v => `${v} NB` },
 ];
 
 // ─── Roofing Sheets Selector ──────────────────────────────────────────────
@@ -781,9 +783,9 @@ export default function CategoryPage() {
 
     // ── Pipe-type state (only active for ms-pipes / gp-pipes) ──────────────
     const isPipeCategory = slug === 'ms-pipes' || slug === 'gp-pipes';
-    // GP Pipes only has rectangular data — default to 'rect' so it never tries groupKey 'nb'
-    const [pipeType, setPipeType] = useState(slug === 'gp-pipes' ? 'rect' : 'round');
+    // GP Pipes uses round pipe tabs (nb groupKey); MS Pipes has round + square + rect
     const PIPE_TYPE_TABS = slug === 'gp-pipes' ? GP_PIPE_TYPE_TABS : MS_PIPE_TYPE_TABS;
+    const [pipeType, setPipeType] = useState('round');
     const activePipeTab = isPipeCategory
         ? (PIPE_TYPE_TABS.find(t => t.value === pipeType) || PIPE_TYPE_TABS[0])
         : null;
