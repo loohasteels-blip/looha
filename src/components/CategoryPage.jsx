@@ -877,10 +877,7 @@ export default function CategoryPage() {
                         <span className="brand-selector-label">Brand:</span>
                         <div className="brand-pills">
                             {categoryData.brands.map((b) => {
-                                const multipliers = getBrandMultipliers(slug);
-                                const multiplier = multipliers[b];
                                 const isActive = selectedBrand === b;
-                                const priceDiff = multiplier ? ((multiplier - 1) * 100).toFixed(0) : null;
                                 return (
                                     <button
                                         key={b}
@@ -888,11 +885,6 @@ export default function CategoryPage() {
                                         onClick={() => handleBrandSelect(b)}
                                     >
                                         {b}
-                                        {multiplier && multiplier !== 1 && (
-                                            <span className={`brand-pill-diff ${multiplier > 1 ? 'diff-up' : 'diff-down'}`}>
-                                                {multiplier > 1 ? `+${priceDiff}%` : `${priceDiff}%`}
-                                            </span>
-                                        )}
                                     </button>
                                 );
                             })}
