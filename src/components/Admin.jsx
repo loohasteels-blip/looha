@@ -214,6 +214,10 @@ export default function Admin() {
     // Bulk price per category (just UI — not saved to Firestore directly)
     const [bulkPrices, setBulkPrices] = useState({});
     
+    // Quick Rate Update panel state
+    const [quickRates, setQuickRates] = useState({});
+    const [quickSaved, setQuickSaved] = useState(false);
+
     // Brand multipliers state
     const [adminBrandMultipliers, setAdminBrandMultipliers] = useState({});
 
@@ -303,6 +307,22 @@ export default function Admin() {
     const totalRevenue = orders.reduce((s, o) => s + (o.total || 0), 0);
     const pendingOrders = orders.filter(o => o.statusIndex < 4).length;
     const codOrders = orders.filter(o => o.paymentMethod === 'cod' && o.statusIndex < 4).length;
+
+    const handleQuickUpdate = () => {
+        const updated = { ...rates };
+        Object.entries(quickRates).forEach(([catId, price]) => {
+            const p = parseInt(price);
+            if (!p || p <= 0) return;
+            const catData = products[catId];
+            if (catData?.items) {
+                catData.items.forEach(item => { updated[item.id] = p; });
+            }
+        });
+        setRates(updated);
+        setQuickRates({});
+        setQuickSaved(true);
+        setTimeout(() => setQuickSaved(false), 3000);
+    };
 
     const handleSaveRates = async () => {
         const result = await saveRates(rates);
@@ -449,6 +469,58 @@ export default function Admin() {
                                         {ratesSaved ? '✓ Saved to Cloud!' : '☁️ Save All Rates'}
                                     </button>
                                 </div>
+                                {/* ── QUICK RATE UPDATE PANEL ── */}
+                                <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', borderRadius: 14, padding: 24, marginBottom: 28, boxShadow: '0 4px 24px rgba(0,0,0,0.18)' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                                        <span style={{ fontSize: 22 }}>⚡</span>
+                                        <div>
+                                            <h3 style={{ margin: 0, color: '#fff', fontSize: '1.05rem' }}>Quick Rate Update</h3>
+                                            <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.75rem' }}>Enter today's supplier rate → click Apply → then Save All Rates ↑</p>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12, marginTop: 18 }}>
+                                        {Object.entries(products).map(([catId, catData]) => (
+                                            <div key={catId}>
+                                                <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: 5 }}>
+                                                    {catData.categoryName}
+                                                </label>
+                                                <div style={{ display: 'flex', alignItems: 'center', background: '#1e293b', borderRadius: 8, border: '1.5px solid #334155', overflow: 'hidden' }}>
+                                                    <span style={{ padding: '0 8px', color: '#f59e0b', fontWeight: 700, fontSize: '0.9rem' }}>₹</span>
+                                                    <input
+                                                        type="number"
+                                                        placeholder={`e.g. ${catData.items?.[0]?.pricePerTon || 65000}`}
+                                                        value={quickRates[catId] || ''}
+                                                        onChange={e => setQuickRates(prev => ({ ...prev, [catId]: e.target.value }))}
+                                                        style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#fff', fontSize: '0.88rem', fontWeight: 600, padding: '9px 6px 9px 0', fontFamily: 'inherit' }}
+                                                    />
+                                                    <span style={{ padding: '0 8px', color: '#475569', fontSize: '0.68rem' }}>/ton</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20, flexWrap: 'wrap', gap: 10 }}>
+                                        <p style={{ margin: 0, color: '#64748b', fontSize: '0.75rem' }}>
+                                            💡 Leave blank to keep current price. Fill only what changed today.
+                                        </p>
+                                        <button
+                                            onClick={handleQuickUpdate}
+                                            disabled={!Object.values(quickRates).some(v => v && parseInt(v) > 0)}
+                                            style={{
+                                                background: Object.values(quickRates).some(v => v && parseInt(v) > 0) ? 'linear-gradient(90deg, #f59e0b, #E98800)' : '#334155',
+                                                color: Object.values(quickRates).some(v => v && parseInt(v) > 0) ? '#fff' : '#64748b',
+                                                border: 'none', borderRadius: 8, padding: '10px 24px',
+                                                fontSize: '0.88rem', fontWeight: 700, cursor: Object.values(quickRates).some(v => v && parseInt(v) > 0) ? 'pointer' : 'not-allowed',
+                                                fontFamily: 'inherit', transition: 'all 0.2s', whiteSpace: 'nowrap'
+                                            }}
+                                        >
+                                            {quickSaved ? '✓ Applied! Now click Save All Rates ↑' : '⚡ Apply to All Categories'}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Individual category cards */}
                                 {Object.entries(products).map(([catId, catData]) => (
                                     <div key={catId} className="card" style={{ marginBottom: 16 }}>
                                         <div className="card-body">
