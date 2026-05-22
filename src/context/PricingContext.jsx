@@ -87,18 +87,23 @@ export function PricingProvider({ children }) {
 
             const promises = Object.entries(ratesObj).map(([itemId, pricePerTon]) => {
                 let categoryId = '';
-                let sizeLabel  = itemId; // safe default
+                let sizeLabel  = itemId; // safe default — never undefined
                 Object.entries(products).forEach(([catId, catData]) => {
                     const found = catData.items.find(i => i.id === itemId);
                     if (found) { categoryId = catId; sizeLabel = getSizeLabel(found); }
                 });
-                return setDoc(doc(db, 'pricing', itemId), {
+                // Strip undefined fields: JSON round-trip removes any undefined values
+                // so Firestore never rejects the write with "Unsupported field value: undefined"
+                const docData = JSON.parse(JSON.stringify({
                     productSizeId: itemId,
-                    categoryId,
-                    size: sizeLabel,
-                    pricePerTon: Number(pricePerTon) || 0,
-                    updatedAt: serverTimestamp(),
-                });
+                    categoryId:    categoryId || '',
+                    size:          sizeLabel  || itemId,
+                    pricePerTon:   Number(pricePerTon) || 0,
+                    updatedAt:     serverTimestamp(),
+                }));
+                // serverTimestamp() is lost in JSON round-trip — re-attach it
+                docData.updatedAt = serverTimestamp();
+                return setDoc(doc(db, 'pricing', itemId), docData);
             });
             await Promise.all(promises);
             return { success: true };
