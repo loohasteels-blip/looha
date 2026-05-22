@@ -71,13 +71,34 @@ export function PricingProvider({ children }) {
 
     const saveRates = useCallback(async (ratesObj) => {
         try {
+            // Build a display-friendly size label from whichever fields the item has.
+            // Many data files (msRectData, msSquareData, msFlatData…) don't use `size`
+            // and instead use rectSize+thickness, squareSize+thickness, flatWidth+flatThickness, etc.
+            // Firestore will throw if any field value is `undefined`.
+            const getSizeLabel = (item) => {
+                if (item.size !== undefined)                        return String(item.size);
+                if (item.rectSize !== undefined)                    return `${item.rectSize} × ${item.thickness}mm`;
+                if (item.squareSize !== undefined)                  return `${item.squareSize} × ${item.thickness}mm`;
+                if (item.flatWidth !== undefined)                   return `${item.flatWidth} × ${item.flatThickness}mm`;
+                if (item.outerDiameter !== undefined)               return `OD ${item.outerDiameter} × ${item.thickness}mm`;
+                if (item.nominalBore !== undefined)                 return `NB ${item.nominalBore}`;
+                return item.id; // last resort
+            };
+
             const promises = Object.entries(ratesObj).map(([itemId, pricePerTon]) => {
-                let categoryId = '', size = '';
+                let categoryId = '';
+                let sizeLabel  = itemId; // safe default
                 Object.entries(products).forEach(([catId, catData]) => {
                     const found = catData.items.find(i => i.id === itemId);
-                    if (found) { categoryId = catId; size = found.size; }
+                    if (found) { categoryId = catId; sizeLabel = getSizeLabel(found); }
                 });
-                return setDoc(doc(db, 'pricing', itemId), { productSizeId: itemId, categoryId, size, pricePerTon: Number(pricePerTon), updatedAt: serverTimestamp() });
+                return setDoc(doc(db, 'pricing', itemId), {
+                    productSizeId: itemId,
+                    categoryId,
+                    size: sizeLabel,
+                    pricePerTon: Number(pricePerTon) || 0,
+                    updatedAt: serverTimestamp(),
+                });
             });
             await Promise.all(promises);
             return { success: true };
