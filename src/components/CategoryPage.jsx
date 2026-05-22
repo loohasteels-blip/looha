@@ -783,12 +783,9 @@ export default function CategoryPage() {
 
     // ── Pipe-type state (only active for ms-pipes / gp-pipes) ──────────────
     const isPipeCategory = slug === 'ms-pipes' || slug === 'gp-pipes';
-    // GP Pipes = round only; MS Pipes = round + square + rect hollow sections
-    // Note: module-level constant is PIPE_TYPE_TABS (MS); GP_PIPE_TYPE_TABS is GP-only
-    const activeTabSet = slug === 'gp-pipes' ? GP_PIPE_TYPE_TABS : PIPE_TYPE_TABS;
     const [pipeType, setPipeType] = useState('round');
     const activePipeTab = isPipeCategory
-        ? (activeTabSet.find(t => t.value === pipeType) || activeTabSet[0])
+        ? (PIPE_TYPE_TABS.find(t => t.value === pipeType) || PIPE_TYPE_TABS[0])
         : null;
 
     // Brand selection — default to first brand if available
@@ -928,7 +925,7 @@ export default function CategoryPage() {
                         groupFormat={groupFormat}
                         quantityLabel={slug === 'roofing-sheets' ? 'Running Ft' : 'Nos'}
                         /* Step-0 pipe type props — only for pipe pages */
-                        typeOptions={isPipeCategory ? activeTabSet.map(t => ({ value: t.value, label: t.label })) : []}
+                        typeOptions={isPipeCategory ? PIPE_TYPE_TABS.map(t => ({ value: t.value, label: t.label })) : []}
                         selectedType={pipeType}
                         onTypeChange={isPipeCategory ? (val) => { setPipeType(val); } : null}
                     />
