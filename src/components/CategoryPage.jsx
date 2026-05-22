@@ -878,6 +878,9 @@ export default function CategoryPage() {
                         <div className="brand-pills">
                             {categoryData.brands.map((b) => {
                                 const isActive = selectedBrand === b;
+                                const multipliers = getBrandMultipliers(slug);
+                                const multiplier = multipliers[b];
+                                const priceDiff = multiplier ? ((multiplier - 1) * 100).toFixed(0) : null;
                                 return (
                                     <button
                                         key={b}
@@ -885,6 +888,12 @@ export default function CategoryPage() {
                                         onClick={() => handleBrandSelect(b)}
                                     >
                                         {b}
+                                        {/* Show % badge only on Roofing Sheets */}
+                                        {slug === 'roofing-sheets' && multiplier && multiplier !== 1 && (
+                                            <span className={`brand-pill-diff ${multiplier > 1 ? 'diff-up' : 'diff-down'}`}>
+                                                {multiplier > 1 ? `+${priceDiff}%` : `${priceDiff}%`}
+                                            </span>
+                                        )}
                                     </button>
                                 );
                             })}
