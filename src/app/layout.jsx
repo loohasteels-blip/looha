@@ -40,6 +40,11 @@ export const metadata = {
     'geo.position': '14.4426;79.9865',
     'ICBM': '14.4426, 79.9865',
   },
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 const jsonLd = {
