@@ -858,7 +858,7 @@ export default function CategoryPage() {
     };
 
     return (
-        <div className="page animate-fade-in">
+        <div className="page">
             <div className="container">
                 <div className="breadcrumb">
                     <Link href="/">Home</Link>
@@ -871,6 +871,7 @@ export default function CategoryPage() {
                     <p className="text-light">{category.description}</p>
                 </div>
 
+                <div className="animate-fade-in">
                 {/* Brand selector */}
                 {hasBrands && (
                     <div className="brand-selector-bar">
@@ -1074,6 +1075,7 @@ export default function CategoryPage() {
                         </div>
                     </>
                 )}
+                </div>{/* end animate-fade-in */}
             </div>
         </div>
     );

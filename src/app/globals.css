@@ -445,6 +445,7 @@ h6 {
 /* ===== Page ===== */
 .page {
   min-height: calc(100vh - 160px);
+  padding-top: 0;
   padding-bottom: 48px;
 }
 
@@ -499,6 +500,10 @@ h6 {
 
   .page-header h1 {
     font-size: 1.4rem;
+  }
+
+  .breadcrumb {
+    margin-top: 16px;
   }
 }
 
