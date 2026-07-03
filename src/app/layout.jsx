@@ -34,6 +34,9 @@ export const metadata = {
     description: 'Wholesale steel from TATA Tiscon, JSW, Vizag, Jindal & SAIL. Bulk orders. Near Mulapet Gate, Nellore. Call: 8885999718.',
     images: ['https://www.looha.in/og-image.png'],
   },
+  verification: {
+    google: '2kOz7VrGTj0jWH5D0ux4nCgKzHdbRe_M5zOnxkXTOz4',
+  },
   other: {
     'geo.region': 'IN-AP',
     'geo.placename': 'Nellore, Andhra Pradesh',
