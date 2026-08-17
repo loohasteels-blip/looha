@@ -1,8 +1,8 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
 export async function POST(req) {
+  // Lazy-init inside handler so build doesn't fail without OPENAI_API_KEY
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
   try {
     const { text } = await req.json();
     if (!text || text.trim().length < 3) {
