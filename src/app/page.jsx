@@ -159,6 +159,74 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ══ RFQ PLATFORM SECTION ══ */}
+            <section className="rfq-platform-section">
+                <div className="container">
+                    <div className="rfq-platform-header">
+                        <div className="rfq-platform-tag">New Feature</div>
+                        <h2>Get Competitive Steel Quotes in Minutes</h2>
+                        <p>Tell us what you need — we alert the nearest verified wholesalers and bring quotes to you.</p>
+                    </div>
+
+                    <div className="rfq-platform-grid">
+                        {/* Contractor */}
+                        <div className="rfq-platform-card rfq-platform-card-contractor">
+                            <div className="rfq-pc-number">01</div>
+                            <h3>For Contractors</h3>
+                            <p>Post your steel requirement once. Get 3 competitive quotes from local wholesalers — compare price, delivery, and credit terms side by side.</p>
+                            <ul className="rfq-pc-list">
+                                <li>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Paste WhatsApp text — AI extracts items
+                                </li>
+                                <li>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    3 nearest wholesalers alerted instantly
+                                </li>
+                                <li>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Compare quotes &amp; download branded PDF
+                                </li>
+                            </ul>
+                            <Link href="/rfq" className="rfq-pc-btn">
+                                Post a Requirement
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </Link>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="rfq-platform-divider">
+                            <span>or</span>
+                        </div>
+
+                        {/* Wholesaler */}
+                        <div className="rfq-platform-card rfq-platform-card-wholesaler">
+                            <div className="rfq-pc-number">02</div>
+                            <h3>For Wholesalers</h3>
+                            <p>Register as a Looha supplier. Receive RFQ alerts from contractors in your area automatically — respond with your best price and win orders.</p>
+                            <ul className="rfq-pc-list">
+                                <li>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Auto-matched by pincode proximity
+                                </li>
+                                <li>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Enter prices on mobile in seconds
+                                </li>
+                                <li>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Branded PDF quote generated for you
+                                </li>
+                            </ul>
+                            <Link href="/register" className="rfq-pc-btn rfq-pc-btn-outline">
+                                Register as Supplier
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Product Categories */}
             <section className="container section section-centered">
                 <div className="section-header">
@@ -256,8 +324,8 @@ export default function Home() {
                     <p>Join LOOHA TECHNOLOGIES — Nellore&apos;s transparent, no-credit digital steel platform</p>
                     <div className="cta-buttons">
                         <Link href="/products/tmt-bars" className="btn btn-accent btn-lg">Start Shopping →</Link>
-                        <Link href="/register" className="btn btn-outline btn-lg" style={{ borderColor: '#fff', color: '#fff' }}>
-                            Register Free
+                        <Link href="/rfq" className="btn btn-outline btn-lg" style={{ borderColor: '#fff', color: '#fff' }}>
+                            Get Instant Quotes
                         </Link>
                     </div>
                 </div>
