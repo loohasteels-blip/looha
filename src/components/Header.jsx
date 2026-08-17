@@ -158,6 +158,9 @@ export default function Header() {
                     <Link href="/brands" className="sidebar-link" onClick={() => setMenuOpen(false)}>🏷️ All Brands</Link>
                     <Link href="/blog" className="sidebar-link" onClick={() => setMenuOpen(false)}>📰 Blog</Link>
                     <Link href="/rfq" className="sidebar-link sidebar-link-rfq" onClick={() => setMenuOpen(false)}>⚡ Get Instant Quotes</Link>
+                    {user?.role === 'wholesaler' && (
+                      <Link href="/wholesaler/rfqs" className="sidebar-link" onClick={() => setMenuOpen(false)}>🔔 My RFQ Alerts</Link>
+                    )}
                     <Link href="/dashboard" className="sidebar-link" onClick={() => setMenuOpen(false)}>📊 My Dashboard</Link>
                     <Link href="/orders" className="sidebar-link" onClick={() => setMenuOpen(false)}>📦 My Orders</Link>
                     <Link href="/support" className="sidebar-link" onClick={() => setMenuOpen(false)}>📞 Help & Support</Link>

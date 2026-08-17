@@ -9,27 +9,39 @@ export async function POST(req) {
       return Response.json({ error: 'Input too short' }, { status: 400 });
     }
 
-    const systemPrompt = `You are a steel procurement assistant for an Indian steel trading platform. 
-Extract steel product requirements from the user's text (which may be a WhatsApp message, handwritten note, or informal list).
+    const systemPrompt = `You are a steel procurement assistant for an Indian steel trading platform.
+Extract steel product requirements from the user's text (WhatsApp message, typed list, or informal note).
 
-Return ONLY a valid JSON array of items. Each item must have:
-- "product": string (e.g., "TMT Bars", "MS Pipes", "MS Angle", "GI Sheets", "MS Beams", "MS Channels", "Binding Wire")
-- "size": string (e.g., "12mm", "25 NB", "75x50mm", "20 Gauge")  
-- "quantity": number
-- "unit": string (e.g., "Nos", "Ton", "Kg", "Boxes", "Bundles", "Feet")
-- "estimatedTons": number (convert to approximate tons; for "nos" use weight estimates)
-- "notes": string (any special requirements, brand preferences, grade etc.)
+IMPORTANT: You MUST respond with ONLY a JSON object in this exact format:
+{
+  "items": [
+    {
+      "product": "TMT Bars",
+      "size": "12mm",
+      "quantity": 200,
+      "unit": "Nos",
+      "estimatedTons": 1.78,
+      "notes": ""
+    }
+  ]
+}
+
+Product name rules — use EXACTLY one of these names:
+TMT Bars, MS Pipes, GP Pipes, MS Flat, MS Square Rods, MS Angle, MS Beams, MS Channels, Binding Wire, MS Sheets, GI Sheets, GI Pipes, Roofing Sheets, Welding Rods
+
+Unit conversion rules:
+- TMT 12mm: 1 nos = 0.00889 tons. So 200 nos = 1.778 tons
+- TMT 8mm: 1 nos = 0.00474 tons
+- TMT 16mm: 1 nos = 0.01896 tons
+- If unit is already tons/kg, convert directly (1000kg = 1 ton)
+- If unclear, estimate and note it
 
 Rules:
-- "100 nos" of 12mm TMT = approx 1.07 tons (12 × 0.889 kg each)
-- "100 nos" of 8mm TMT = approx 0.474 tons
-- If unit is already tons/kg, convert directly
-- If unclear, make your best estimate and note it
+- If user mentions "NB" or "inch" for pipes, it is an MS Pipe or GP Pipe size
+- "25 NB" or "1 inch" = pipe size
 - Ignore greetings, addresses, phone numbers
-- Return [] if no steel products found
-
-Example output:
-[{"product":"TMT Bars","size":"12mm","quantity":200,"unit":"Nos","estimatedTons":1.778,"notes":"Fe 500D grade, TATA preferred"},{"product":"MS Pipes","size":"25 NB","quantity":50,"unit":"Nos","estimatedTons":0.3,"notes":""}]`;
+- If no steel products found, return { "items": [] }
+- DO NOT return anything except the JSON object`;
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
@@ -38,23 +50,48 @@ Example output:
         { role: 'user', content: text },
       ],
       temperature: 0.1,
-      max_tokens: 800,
-      response_format: { type: 'json_object' },
+      max_tokens: 1000,
     });
+
+    const raw = completion.choices[0].message.content?.trim() || '';
+    console.log('OpenAI raw response:', raw);
+
+    // Strip markdown code fences if present
+    const cleaned = raw
+      .replace(/^```json\s*/i, '')
+      .replace(/^```\s*/i, '')
+      .replace(/\s*```$/i, '')
+      .trim();
 
     let parsed;
     try {
-      const raw = completion.choices[0].message.content;
-      const obj = JSON.parse(raw);
-      // GPT might wrap in { items: [...] } or return array directly
-      parsed = Array.isArray(obj) ? obj : (obj.items || obj.results || obj.products || []);
-    } catch {
-      return Response.json({ error: 'Failed to parse AI response' }, { status: 500 });
+      const obj = JSON.parse(cleaned);
+      // Handle both { items: [...] } and bare array
+      if (Array.isArray(obj)) {
+        parsed = obj;
+      } else if (obj.items && Array.isArray(obj.items)) {
+        parsed = obj.items;
+      } else {
+        // Try to find any array in the object
+        const firstArray = Object.values(obj).find(v => Array.isArray(v));
+        parsed = firstArray || [];
+      }
+    } catch (parseErr) {
+      console.error('JSON parse error:', parseErr, 'Raw:', cleaned);
+      return Response.json({ error: 'Failed to parse AI response', raw: cleaned }, { status: 500 });
     }
 
     return Response.json({ items: parsed });
+
   } catch (err) {
     console.error('parse-rfq error:', err);
+    // Check for common OpenAI errors
+    if (err?.status === 401) {
+      return Response.json({ error: 'Invalid OpenAI API key' }, { status: 500 });
+    }
+    if (err?.status === 429) {
+      return Response.json({ error: 'OpenAI rate limit reached. Please try again in a moment.' }, { status: 500 });
+    }
     return Response.json({ error: err.message || 'Server error' }, { status: 500 });
   }
 }

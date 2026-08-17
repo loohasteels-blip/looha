@@ -219,3 +219,28 @@
   .rfqd-card { padding: 20px; }
   .rfqd-quotes-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Wholesalers Notified Card ── */
+.rfqd-notified-card { border-color: rgba(233,136,0,0.3); background: #fffbf0; }
+.rfqd-notified-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.rfqd-notified-title { display: flex; align-items: center; gap: 10px; color: var(--color-accent); }
+.rfqd-notified-title h2 { margin-bottom: 0; color: var(--color-text); font-size: 17px; }
+.rfqd-notified-sub { font-size: 13px; color: var(--color-text-lighter); }
+.rfqd-notified-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.rfqd-notified-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: #fff; border: 1.5px solid var(--color-border); border-radius: var(--radius-md); }
+.rfqd-notified-info { display: flex; flex-direction: column; gap: 3px; }
+.rfqd-notified-name { font-size: 14px; font-weight: 700; color: var(--color-text); }
+.rfqd-notified-dist { font-size: 12px; color: var(--color-text-lighter); }
+.rfqd-wa-alert-btn { display: inline-flex; align-items: center; gap: 6px; background: #25D366; color: #fff; border: none; border-radius: var(--radius-md); padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background var(--transition); white-space: nowrap; }
+.rfqd-wa-alert-btn:hover { background: #1da851; }
+.rfqd-notified-hint { font-size: 12px; color: var(--color-text-lighter); line-height: 1.5; }
+
+/* ── SVG flex helpers ── */
+.rfqd-meta-item { display: inline-flex; align-items: center; gap: 4px; }
+.rfqd-meta-notified { color: #4ade80 !important; }
+.rfqd-stat-label { display: flex; align-items: center; gap: 4px; }
+.rfqd-no-quotes-icon { width: 52px; height: 52px; background: var(--color-surface); border: 2px solid var(--color-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--color-text-lighter); }
+.rfqd-back { display: inline-flex; align-items: center; gap: 6px; }
+.rfqd-copy-btn { display: inline-flex; align-items: center; gap: 7px; }
+.rfqd-best-badge { display: inline-flex; align-items: center; gap: 5px; }
+.rfqd-wa-btn { display: inline-flex; align-items: center; gap: 6px; }
