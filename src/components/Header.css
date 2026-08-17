@@ -532,3 +532,27 @@
         display: none;
     }
 }
+
+/* ── RFQ Nav Link ─────────────────────────────────────────────────────────── */
+.cat-nav-rfq {
+    background: var(--color-accent) !important;
+    color: #fff !important;
+    border-radius: var(--radius-full) !important;
+    padding: 5px 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em !important;
+    transition: background var(--transition), transform var(--transition) !important;
+}
+.cat-nav-rfq:hover {
+    background: #d47b00 !important;
+    transform: translateY(-1px);
+}
+.sidebar-link-rfq {
+    color: var(--color-accent) !important;
+    font-weight: 700 !important;
+    border-left: 3px solid var(--color-accent) !important;
+    background: rgba(233,136,0,0.06) !important;
+}
+.sidebar-link-rfq:hover {
+    background: rgba(233,136,0,0.12) !important;
+}
