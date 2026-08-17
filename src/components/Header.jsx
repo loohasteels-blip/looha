@@ -129,8 +129,6 @@ export default function Header() {
                         {categories.slice(0, 6).map(cat => (
                             <Link key={cat.id} href={`/products/${cat.id}`} className="cat-nav-link">{cat.name.toUpperCase()}</Link>
                         ))}
-                        <Link href="/brands" className="cat-nav-link cat-nav-all">ALL BRANDS</Link>
-                        <Link href="/blog" className="cat-nav-link" style={{ color: '#E98800', fontWeight: 700 }}>📰 BLOG</Link>
                         <Link href="/rfq" className="cat-nav-link cat-nav-rfq">⚡ GET QUOTES</Link>
                     </div>
                 </nav>
@@ -155,8 +153,6 @@ export default function Header() {
                         </Link>
                     ))}
                     <div className="sidebar-divider" />
-                    <Link href="/brands" className="sidebar-link" onClick={() => setMenuOpen(false)}>🏷️ All Brands</Link>
-                    <Link href="/blog" className="sidebar-link" onClick={() => setMenuOpen(false)}>📰 Blog</Link>
                     <Link href="/rfq" className="sidebar-link sidebar-link-rfq" onClick={() => setMenuOpen(false)}>⚡ Get Instant Quotes</Link>
                     {user?.role === 'wholesaler' && (
                       <Link href="/wholesaler/rfqs" className="sidebar-link" onClick={() => setMenuOpen(false)}>🔔 My RFQ Alerts</Link>
